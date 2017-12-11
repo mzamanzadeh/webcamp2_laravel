@@ -11,20 +11,22 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/people', function () {
 
-    $people = ['Farzad','Mohammad','Ali'];
-
-//    return view('people', ['namha'=> $people]);
+//    $people = ['Farzad','Mohammad','Ali'];
+    $people = [];
+    return view('people', ['namha'=> $people]);
 //    return view('people',compact('people'));
 //    return view('people')->with('namha',$people);
-    return view('people')->withNamha($people);
+//    return view('people')->withNamha($people);
 
 });
 
 Route::get('/name-{name}-{id}',
     'PagesController@name');
 
-Route::get('/about1', function(){
-    return view('about');
-})->name('aboutPage');
+Route::get('/hello/{name?}','PagesController@hello')->name('hello');
+
+Route::get('/about', 'PagesController@about')->name('aboutPage');
+Route::get('/', 'PagesController@home')->name('homepage');
+

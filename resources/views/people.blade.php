@@ -5,9 +5,18 @@
 <body>
 
 <ul>
-    @foreach($namha as $person)
+
+  {{--  @foreach($namha as $person)
         <li>{{$person}}</li>
-        @endforeach
+        @endforeach--}}
+
+        @forelse($namha as $person)
+                <li>{{ $person }}</li>
+                @empty
+
+                No people found!
+
+                @endforelse
 
 </ul>
 
