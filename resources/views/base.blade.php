@@ -78,7 +78,7 @@
     @endif
 
     <div class="content">
-        <div class="title m-b-md">
+        <div class="m-b-md row">
             @section('content')
                 My Website
                 @show

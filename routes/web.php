@@ -30,3 +30,14 @@ Route::get('/hello/{name?}','PagesController@hello')->name('hello');
 Route::get('/about', 'PagesController@about')->name('aboutPage');
 Route::get('/', 'PagesController@home')->name('homepage');
 
+Route::get('/posts', "PostController@index")->name('posts.index');
+
+Route::get('/posts/{id}', "PostController@show")
+    ->name('posts.show')
+    ->where('id',"\d");
+
+Route::get('/posts/new',"PostController@create")->name('posts.new');
+Route::post('/posts/new',"PostController@store")->name('posts.store');
+
+Route::get('/posts/edit/{id}',"PostController@edit")->name('posts.edit');
+Route::post('/posts/update/{id}',"PostController@update")->name('posts.update');
