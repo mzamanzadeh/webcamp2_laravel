@@ -36,6 +36,10 @@ Route::get('/posts/{id}', "PostController@show")
     ->name('posts.show')
     ->where('id',"\d");
 
+Route::post('/posts/{id}/newcomment', "PostController@newComment")
+    ->name('posts.new.comment');
+
+
 Route::get('/posts/new',"PostController@create")->name('posts.new');
 Route::post('/posts/new',"PostController@store")->name('posts.store');
 

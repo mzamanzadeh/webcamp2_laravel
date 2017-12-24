@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
+use App\Comment;
 use App\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -42,7 +44,8 @@ class PostController extends Controller
 
     public function create()
     {
-        return view('posts.new');
+        $categories = Category::all();
+        return view('posts.new',compact('categories'));
     }
 
     public function store(Request $request)
@@ -50,6 +53,11 @@ class PostController extends Controller
         $post = new Post();
         $post->visit_count = 0;
         $post->fill($request->all());
+
+        $post->save();
+
+        $post->categories()->attach([2,3]);
+
 
         $post->save();
 
@@ -73,6 +81,24 @@ class PostController extends Controller
         $post->save();
 
         return redirect()->route('posts.index');
+    }
+
+    public function newComment($id, Request $request)
+    {
+        $post = Post::query()->findOrFail($id);
+
+        /*$newComment = new Comment($request->all());
+        $post->comments()->save($newComment);*/
+
+       /* $newComment = new Comment();
+        $newComment->fill($request->all());*/
+
+//        $post->comments()->save($newComment);
+
+        $post->comments()->create($request->all());
+
+        return back();
+
     }
     
 }

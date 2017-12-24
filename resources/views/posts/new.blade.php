@@ -52,6 +52,30 @@
         @endif
     </div>
 </div>
+
+
+<div class="form-group{{ $errors->has('categories') ? ' has-error' : '' }}">
+    <label for="categories" class="col-md-4 control-label">select categories</label>
+
+    <div class="col-md-6">
+
+        <select class="form-control" multiple="multiple">
+            @foreach($categories as $category)
+            <option value="{{ $category->id }}">
+                {{ $category->name }}
+            </option>
+                @endforeach
+        </select>
+
+        @if ($errors->has('categories'))
+            <span class="help-block">
+<strong>{{ $errors->first('categories') }}</strong>
+</span>
+        @endif
+    </div>
+</div>
+                            
+                            
 <div class="form-group{{ $errors->has('publish') ? ' has-error' : '' }}">
     <label for="publish" class="col-md-4 control-label">publish?</label>
 
