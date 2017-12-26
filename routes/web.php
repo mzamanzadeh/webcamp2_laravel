@@ -38,10 +38,16 @@ Route::get('/posts/{id}', "PostController@show")
 
 Route::post('/posts/{id}/newcomment', "PostController@newComment")
     ->name('posts.new.comment');
+Auth::routes();
 
+Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/posts/new',"PostController@create")->name('posts.new');
-Route::post('/posts/new',"PostController@store")->name('posts.store');
+Route::prefix('admin')->middleware(['auth'])->group(function () {
 
-Route::get('/posts/edit/{id}',"PostController@edit")->name('posts.edit');
-Route::post('/posts/update/{id}',"PostController@update")->name('posts.update');
+    Route::get('/posts/new',"PostController@create")->name('posts.new');
+    Route::post('/posts/new',"PostController@store")->name('posts.store');
+
+    Route::get('/posts/edit/{id}',"PostController@edit")->name('posts.edit');
+    Route::post('/posts/update/{id}',"PostController@update")->name('posts.update');
+
+});

@@ -7,14 +7,14 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">new post</div>
                     <div class="panel-body">
-                        <form class="form-horizontal" role="form" method="POST" action="{{ route('posts.store') }}">
+                        <form class="form-horizontal" enctype="multipart/form-data" role="form" method="POST" action="{{ route('posts.store') }}">
 {{ csrf_field() }}
 
-<div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+<div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
     <label for="email" class="col-md-4 control-label">Title</label>
 
     <div class="col-md-6">
-        <input id="title" type="title" class="form-control" name="title" value="{{ old('title') }}" autofocus>
+        <input id="title" type="text" class="form-control" name="title" value="{{ old('title') }}" autofocus>
 
         @if ($errors->has('title'))
             <span class="help-block">
@@ -38,12 +38,40 @@
     </div>
 </div>
 
+        <div class="form-group{{ $errors->has('full_text') ? ' has-error' : '' }}">
+            <label for="full_text" class="col-md-4 control-label">full text</label>
 
+            <div class="col-md-6">
+
+                <textarea class="form-control" row="8" name="full_text"></textarea>
+                @if ($errors->has('full_text'))
+                    <span class="help-block">
+<strong>{{ $errors->first('full_text') }}</strong>
+</span>
+                @endif
+            </div>
+        </div>
+                            
+    <div class="form-group{{ $errors->has('photo') ? ' has-error' : '' }}">
+        <label for="photo" class="col-md-4 control-label">photo</label>
+
+        <div class="col-md-6">
+    <input id="photo" type="file" class="form-control" name="photo" value="{{ old('photo') }}">
+
+            @if ($errors->has('photo'))
+                <span class="help-block">
+<strong>{{ $errors->first('photo') }}</strong>
+</span>
+            @endif
+        </div>
+    </div>
+
+                            
 <div class="form-group{{ $errors->has('slug') ? ' has-error' : '' }}">
     <label for="slug" class="col-md-4 control-label">Slug</label>
 
     <div class="col-md-6">
-        <input id="slug" type="slug" class="form-control" name="slug" value="{{ old('slug') }}">
+        <input id="slug" type="text" class="form-control" name="slug" value="{{ old('slug') }}">
 
         @if ($errors->has('slug'))
             <span class="help-block">
@@ -52,6 +80,7 @@
         @endif
     </div>
 </div>
+                            
 
 
 <div class="form-group{{ $errors->has('categories') ? ' has-error' : '' }}">
@@ -59,7 +88,7 @@
 
     <div class="col-md-6">
 
-        <select class="form-control" multiple="multiple">
+        <select name="categories[]" class="form-control" multiple="multiple">
             @foreach($categories as $category)
             <option value="{{ $category->id }}">
                 {{ $category->name }}

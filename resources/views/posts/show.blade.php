@@ -6,10 +6,14 @@
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        {{ $post->title }}
+                        {{ $post->title }}<br>
+                        by {{ $post->user->name or 'unknown' }}
+                        <br>
+                        {{ verta($post->created_at) }}
                     </div>
                     <div class="panel-body">
-                        {{ $post->summary }}
+                        {{ $post->summary }}<br>
+                        {{ $post->full_text }}
 
                         <hr>
                         insert a new Comment:

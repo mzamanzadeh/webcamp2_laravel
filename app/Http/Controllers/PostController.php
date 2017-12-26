@@ -3,13 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Category;
-use App\Comment;
 use App\Post;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
+
+
+    /**
+     * PostController constructor.
+     */
+    /*public function __construct()
+    {
+        $this->middleware('auth');
+    }*/
+
     public function index()
     {
 //        $posts = DB::table('posts')
@@ -50,13 +59,33 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'title'=> "required",
+            'slug'=> "required|unique:posts",
+            'photo'=> "image|max:5000",
+            'categories'=> "required|min:1",
+        ]);
         $post = new Post();
         $post->visit_count = 0;
         $post->fill($request->all());
+        $post->user_id = Auth::id();
+
+        //upload photo
+        $photo = $request->file('photo');
+
+        $photoName = time().$photo->getClientOriginalName();
+
+        $path = "uploads/";
+
+        $photo->move($path, $photoName);
+
+        $post->photo = "/".$path.$photoName;
+        //end file upload
 
         $post->save();
 
-        $post->categories()->attach([2,3]);
+
+        $post->categories()->attach($request->input("categories"));
 
 
         $post->save();
@@ -69,7 +98,8 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = Post::find($id);
-        return view('posts.edit',compact('post'));
+        $categories = Category::all();
+        return view('posts.edit',compact('post','categories'));
     }
 
     public function update(Request $request,$id)
@@ -77,6 +107,18 @@ class PostController extends Controller
         $post = Post::find($id);
 
         $post->fill($request->all());
+
+        $photo = $request->file('photo');
+
+        $photoName = time().$photo->getClientOriginalName();
+
+        $path = "uploads/";
+
+        $photo->move($path, $photoName);
+
+        $post->photo = "/".$path.$photoName;
+
+        $post->categories()->sync($request->input('categories'));
 
         $post->save();
 

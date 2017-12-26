@@ -6,7 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    protected $fillable = ['title','summary','publish','slug'];
+    protected $fillable = [
+        'title','summary',
+        'publish','slug',
+        'full_text','photo'
+        ];
 
 //    protected $hidden=['visit_count'];
 
@@ -24,6 +28,11 @@ class Post extends Model
     public function categories()
     {
         return $this->belongsToMany(Category::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
 }
